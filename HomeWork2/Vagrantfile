@@ -79,9 +79,9 @@ Vagrant.configure("2") do |config|
 	      mkdir -p ~root/.ssh
               cp ~vagrant/.ssh/auth* ~root/.ssh
 	     yum install -y mdadm  
-		echo "Step 1"
-		 mdadm --zero-superblock /dev/sdf /dev/sdg && mdadm --create /dev/md0 --level 0 -n 2 /dev/sdf /dev/sdg && mkdir /raid /raid/p{1..5} /etc/mdadm && parted -s /dev/md0 mktable gpt && parted -s /dev/md0 mkpart primary ext4 0 100M && parted -s /dev/md0 mkpart primary ext4 100 200M && parted -s /dev/md0 mkpart primary ext4 200 300M && parted -s /dev/md0 mkpart primary ext4 300 400M && parted -s /dev/md0 mkpart primary ext4 400 500M && for n in 1 2 3 4 5; do mkfs.ext4 /dev/md0p${n}; done && echo "DEVICE partitions" > /etc/mdadm/mdadm.conf && mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
-  	  SHELL
+	     mdadm --zero-superblock /dev/sdf /dev/sdg && mdadm --create /dev/md0 --level 0 -n 2 /dev/sdf /dev/sdg && mkdir /raid /raid/p{1..5} /etc/mdadm && parted -s /dev/md0 mktable gpt && parted -s /dev/md0 mkpart primary ext4 0 100M && parted -s /dev/md0 mkpart primary ext4 100 200M && parted -s /dev/md0 mkpart primary ext4 200 300M && parted -s /dev/md0 mkpart primary ext4 300 400M && parted -s /dev/md0 mkpart primary ext4 400 500M && for n in 1 2 3 4 5; do mkfs.ext4 /dev/md0p${n}; done && echo "DEVICE partitions" > /etc/mdadm/mdadm.conf && mdadm --detail --scan --verbose | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
+	     echo "/dev/md0p1      /raid/p1    ext4    defaults        0 0\n/dev/md0p2      /raid/p2    ext4    defaults        0 0\n/dev/md0p3      /raid/p3    ext4    defaults        0 0\n/dev/md0p4      /raid/p4    ext4    defaults        0 0\n/dev/md0p5      /raid/p5    ext4    defaults        0 0" >> /etc/fstab && mount -a  	  
+SHELL
 
       end
   end
